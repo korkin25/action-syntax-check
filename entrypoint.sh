@@ -1,12 +1,14 @@
 #!/bin/bash
 
+ls -l
+
 # Check for yamllint config
 if [ -f ".yamllint" ]; then
     echo "Using detected .yamllint config path."
     YAMLLINT_CONFIG_PATH=".yamllint"
 else
     echo "Using default yamllint config path: /github/workspace/.github/yamllint.yaml"
-    YAMLLINT_CONFIG_PATH="/github/workspace/.github/yamllint.yaml"
+    YAMLLINT_CONFIG_PATH="/.github/workspace/.github/yamllint.yaml"
 fi
 
 ls -l
