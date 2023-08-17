@@ -1,6 +1,9 @@
 #!/bin/bash
 
-env
+echo DEBUG PWD: "$(pwd)"
+echo DEBUG ls -la: "$(ls -l)"
+
+echo DEBUG end
 
 find . -name yamllint.yaml
 
