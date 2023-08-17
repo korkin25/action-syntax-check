@@ -16,4 +16,9 @@ RUN curl -sSLf https://github.com/rhysd/actionlint/releases/download/v${ACTIONLI
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
+RUN mkdir /configs
+
+COPY actionlint.yaml /configs/actionlint.yaml
+COPY yamllint.yaml /configs/yamllint.yaml
+
 ENTRYPOINT ["/entrypoint.sh"]

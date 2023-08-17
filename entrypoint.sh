@@ -13,7 +13,7 @@ if [ -f ".yamllint" ]; then
     YAMLLINT_CONFIG_PATH=".yamllint"
 else
     echo "Using default yamllint config path: /github/workspace/.github/yamllint.yaml"
-    YAMLLINT_CONFIG_PATH="${GITHUB_WORKSPACE}/.github/yamllint.yaml"
+    YAMLLINT_CONFIG_PATH="/configs/yamllint.yaml"
 fi
 
 ls -l
@@ -23,4 +23,4 @@ find . -name "*.yml" -o -name "*.yaml" | while read -r file; do
 done
 
 # Check GitHub Actions Workflow Syntax
-actionlint
+actionlint -config-file "$YAMLLINT_CONFIG_PATH" .github/workflows/*.yml
