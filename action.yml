@@ -3,13 +3,10 @@ description: 'Lint and check YAML files and GitHub Actions syntax'
 runs:
   using: 'composite'
   env:
-    ACTIONLINT_VERSION: '1.6.25'
-    YAMLLINT_VERSION: '1.32.0'
-  steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-      shell: bash
+    ACTIONLINT_VERSION: "1.6.25"
+    YAMLLINT_VERSION: "1.32.0"
 
+  steps:
     - name: Cache pip data
       id: cache_pip
       uses: actions/cache@v2
