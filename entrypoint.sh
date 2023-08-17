@@ -10,7 +10,7 @@ if [ -f ".yamllint" ]; then
     YAMLLINT_CONFIG_PATH=".yamllint"
 else
     echo "Using default yamllint config path: /github/workspace/.github/yamllint.yaml"
-    YAMLLINT_CONFIG_PATH=".github/yamllint.yaml"
+    YAMLLINT_CONFIG_PATH="${GITHUB_WORKSPACE}/.github/yamllint.yaml"
 fi
 
 ls -l
