@@ -1,36 +1,44 @@
 name: 'Check Syntax Action'
 description: 'Lint and check YAML files and GitHub Actions syntax'
+author: Evgenii Kuzakov
+inputs:
+  yamllint_version:
+    description: 'yamllint version'
+    required: false
+    default: "1.32.0"
+  actionlint_version:
+    description: 'actionlint version'
+    required: false
+    default: "1.6.25"
+
 runs:
   using: 'composite'
-  env:
-    YAMLLINT_VERSION: "1.32.0"
-    ACTIONLINT_VERSION: "1.6.25"
   steps:
     - name: Cache pip data
       id: cache_pip
       uses: actions/cache@v2
       with:
         path: ~/.cache/pip
-        key: pip-data-${{ runner.os }}-yamllint-${{ env.YAMLLINT_VERSION }}
-        restore-keys: pip-data-${{ runner.os }}-yamllint-${{ env.YAMLLINT_VERSION }}
+        key: pip-data-${{ runner.os }}-yamllint-${{ inputs.yamllint_version }}
+        restore-keys: pip-data-${{ runner.os }}-yamllint-${{ inputs.yamllint_version }}
 
     - name: Cache actionlint
       id: cache_actionlint
       uses: actions/cache@v2
       with:
         path: ~/.local/bin/actionlint
-        key: actionlint-${{ env.ACTIONLINT_VERSION }}
+        key: actionlint-${{ inputs.actionlint_version }}
 
     - name: Install yamllint
       if: steps.cache_pip.outputs.cache-hit != 'true'
-      run: pip install yamllint==${{ env.YAMLLINT_VERSION }}
+      run: pip install yamllint==${{ inputs.yamllint_version }}
       shell: bash
 
     - name: Install actionlint
       if: steps.cache_actionlint.outputs.cache-hit != 'true'
       run: |
         mkdir -p "${HOME}/.local/bin"
-        curl -sSLf https://github.com/rhysd/actionlint/releases/download/v${{ env.ACTIONLINT_VERSION }}/actionlint_${{ env.ACTIONLINT_VERSION }}_linux_amd64.tar.gz | tar xzv -C "${HOME}/.local/bin/"
+        curl -sSLf https://github.com/rhysd/actionlint/releases/download/v${{ inputs.actionlint_version }}/actionlint_${{ inputs.actionlint_version }}_linux_amd64.tar.gz | tar xzv -C "${HOME}/.local/bin/"
       shell: bash
 
     - name: Check for yamllint config
