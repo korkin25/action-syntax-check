@@ -22,13 +22,6 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Debugs outputs
-      run: |
-        echo "yamllint_version: ${{ inputs.yamllint_version }}"
-        echo "actionlint_version: ${{ inputs.actionlint_version }}"
-        env
-        find / -name yamllint.yaml 2>/dev/null
-      shell: bash
     - name: Cache pip data
       id: cache_pip
       uses: actions/cache@v2
