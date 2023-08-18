@@ -2,6 +2,9 @@ name: 'Check Syntax Action'
 description: 'Lint and check YAML files and GitHub Actions syntax'
 runs:
   using: 'composite'
+  env:
+    YAMLLINT_VERSION: "1.32.0"
+    ACTIONLINT_VERSION: "1.6.25"
   steps:
     - name: Cache pip data
       id: cache_pip
