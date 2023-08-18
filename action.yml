@@ -10,6 +10,7 @@ runs:
         path: ~/.cache/pip
         key: pip-data-${{ runner.os }}-yamllint-${{ env.YAMLLINT_VERSION }}
         restore-keys: pip-data-${{ runner.os }}-yamllint-${{ env.YAMLLINT_VERSION }}
+      shell: bash
 
     - name: Cache actionlint
       id: cache_actionlint
@@ -17,16 +18,19 @@ runs:
       with:
         path: ~/.local/bin/actionlint
         key: actionlint-${{ env.ACTIONLINT_VERSION }}
+      shell: bash
 
     - name: Install yamllint
       if: steps.cache_pip.outputs.cache-hit != 'true'
       run: pip install yamllint==${{ env.YAMLLINT_VERSION }}
+      shell: bash
 
     - name: Install actionlint
       if: steps.cache_actionlint.outputs.cache-hit != 'true'
       run: |
         mkdir -p "${HOME}/.local/bin"
         curl -sSLf https://github.com/rhysd/actionlint/releases/download/v${{ env.ACTIONLINT_VERSION }}/actionlint_${{ env.ACTIONLINT_VERSION }}_linux_amd64.tar.gz | tar xzv -C "${HOME}/.local/bin/"
+      shell: bash
 
     - name: Check for yamllint config
       run: |
@@ -37,12 +41,15 @@ runs:
           echo "Using default yamllint config path: ${{ github.workspace }}/.github/yamllint.yaml"
           echo "YAMLLINT_CONFIG_PATH=${{ github.workspace }}/.github/yamllint.yaml" >> $GITHUB_ENV
         fi
+      shell: bash
 
     - name: Check YAML Syntax for All Files
       run: |
         find . -name "*.yml" -o -name "*.yaml" | while read -r file; do
           yamllint -c $YAMLLINT_CONFIG_PATH "$file"
         done
+      shell: bash
 
     - name: Check GitHub Actions Workflow Syntax
       run: ~/.local/bin/actionlint
+      shell: bash
