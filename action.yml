@@ -59,10 +59,10 @@ runs:
     - name: Check YAML Syntax for All Files
       run: |
         find . -name "*.yml" -o -name "*.yaml" | while read -r file; do
-          yamllint -c "${{ inputs.yamllint_config }}" "$file"
+          yamllint -c "${GITHUB_ACTION_PATH}/${{ inputs.yamllint_config }}" "$file"
         done
       shell: bash
 
     - name: Check GitHub Actions Workflow Syntax
-      run: actionlint -c "${{ inputs.actionlint_config }}"
+      run: actionlint -c "${GITHUB_ACTION_PATH}/${{ inputs.actionlint_config }}"
       shell: bash
