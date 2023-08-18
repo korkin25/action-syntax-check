@@ -49,6 +49,20 @@ runs:
         curl -sSLf https://github.com/rhysd/actionlint/releases/download/v${{ inputs.actionlint_version }}/actionlint_${{ inputs.actionlint_version }}_linux_amd64.tar.gz | tar xzv -C "${HOME}/.local/bin/"
       shell: bash
 
+    - name: Cache Ansible Collections
+      id: cache_collections
+      uses: actions/cache@v2
+      with:
+        path: ~/.ansible/collections
+        key: ansible-collections-${{ hashFiles('galaxy-requirements.txt') }}
+        restore-keys: ansible-collections-
+
+    - name: Install Ansible Collections
+      if: steps.cache_collections.outputs.cache-hit != 'true'
+      run: |
+        ansible-galaxy collection install -r galaxy-requirements.txt
+      shell: bash
+
     - name: Check YAML Syntax for All Files
       run: |
         find . -name "*.yml" -o -name "*.yaml" | while read -r file; do
