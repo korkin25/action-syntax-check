@@ -10,17 +10,18 @@ inputs:
     description: 'actionlint version'
     required: false
     default: "1.6.25"
+  yamllint_config:
+    description: 'yamllint config'
+    required: false
+    default: ".github/yamllint.yaml"
+  actionlint_config:
+    description: 'actionlint config'
+    required: false
+    default: ".github/actionlint.yaml"
 
 runs:
   using: 'composite'
   steps:
-    - name: Debugs outputs
-      run: |
-        echo "yamllint_version: ${{ inputs.yamllint_version }}"
-        echo "actionlint_version: ${{ inputs.actionlint_version }}"
-        env
-        find / -name yamllint.yaml 2>/dev/null
-      shell: bash
     - name: Cache pip data
       id: cache_pip
       uses: actions/cache@v2
@@ -48,24 +49,13 @@ runs:
         curl -sSLf https://github.com/rhysd/actionlint/releases/download/v${{ inputs.actionlint_version }}/actionlint_${{ inputs.actionlint_version }}_linux_amd64.tar.gz | tar xzv -C "${HOME}/.local/bin/"
       shell: bash
 
-    - name: Check for yamllint config
-      run: |
-        if [ -f ".yamllint" ]; then
-          echo "Using detected .yamllint config path."
-          echo "YAMLLINT_CONFIG_PATH=.yamllint" >> $GITHUB_ENV
-        else
-          echo "Using default yamllint config path: ${{ github.workspace }}/.github/yamllint.yaml"
-          echo "YAMLLINT_CONFIG_PATH=${{ github.workspace }}/.github/yamllint.yaml" >> $GITHUB_ENV
-        fi
-      shell: bash
-
     - name: Check YAML Syntax for All Files
       run: |
         find . -name "*.yml" -o -name "*.yaml" | while read -r file; do
-          yamllint -c $YAMLLINT_CONFIG_PATH "$file"
+          yamllint -c "${{ inputs.yamllint_config }}" "$file"
         done
       shell: bash
 
     - name: Check GitHub Actions Workflow Syntax
-      run: ~/.local/bin/actionlint
+      run: actionlint -c "${{ inputs.actionlint_config }}"
       shell: bash
