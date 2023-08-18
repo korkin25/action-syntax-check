@@ -57,5 +57,5 @@ runs:
       shell: bash
 
     - name: Check GitHub Actions Workflow Syntax
-      run: actionlint -c "${GITHUB_ACTION_PATH}/${{ inputs.actionlint_config }}"
+      run: actionlint -config-file "${GITHUB_ACTION_PATH}/${{ inputs.actionlint_config }}"
       shell: bash
