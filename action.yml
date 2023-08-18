@@ -10,7 +10,6 @@ runs:
         path: ~/.cache/pip
         key: pip-data-${{ runner.os }}-yamllint-${{ env.YAMLLINT_VERSION }}
         restore-keys: pip-data-${{ runner.os }}-yamllint-${{ env.YAMLLINT_VERSION }}
-      shell: bash
 
     - name: Cache actionlint
       id: cache_actionlint
@@ -18,7 +17,6 @@ runs:
       with:
         path: ~/.local/bin/actionlint
         key: actionlint-${{ env.ACTIONLINT_VERSION }}
-      shell: bash
 
     - name: Install yamllint
       if: steps.cache_pip.outputs.cache-hit != 'true'
