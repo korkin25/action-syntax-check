@@ -60,7 +60,7 @@ runs:
     - name: Install Ansible Collections
       if: steps.cache_collections.outputs.cache-hit != 'true'
       run: |
-        ansible-galaxy collection install -r galaxy-requirements.txt
+        ansible-galaxy collection install -r "${GITHUB_ACTION_PATH}/galaxy-requirements.txt"
       shell: bash
 
     - name: Check YAML Syntax for All Files
