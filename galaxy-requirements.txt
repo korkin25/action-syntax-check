@@ -1,2 +1,9 @@
-ansible.netcommon
-ansible.posix
+collections:
+  - name: ansible.posix
+    version: 1.0.0
+    type: galaxy
+
+  - name: community.general
+    version: 1.0.0
+    type: galaxy
+
