@@ -55,7 +55,7 @@ runs:
       with:
         path: ~/.ansible/collections
         key: ansible-collections-${{ hashFiles('galaxy-requirements.txt') }}
-        restore-keys: ansible-collections-
+        restore-keys: ansible-collections-${{ hashFiles('galaxy-requirements.txt') }}
 
     - name: Install Ansible Collections
       if: steps.cache_collections.outputs.cache-hit != 'true'
