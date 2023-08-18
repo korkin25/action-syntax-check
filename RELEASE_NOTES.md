@@ -4,20 +4,20 @@
 
 ### 🎉 New GitHub Action
 
-In this release, we've introduced a new GitHub action to streamline the [SPECIFIC_PROCESS]. Here are the details:
+In this release, we've introduced a new GitHub action to streamline the syntax check for YAML files and GitHub Actions workflows. Here are the details:
 
-#### **[ACTION_NAME]**
+#### **[Check Syntax Action]**
 
-- **Description**: [SHORT_DESCRIPTION]
+- **Description**: Lint and check YAML files and GitHub Actions syntax.
 - **Inputs**:
-  - `[INPUT_NAME_1]`: [INPUT_DESCRIPTION_1] ([Optional/Required]).
-  - `[INPUT_NAME_2]`: [INPUT_DESCRIPTION_2] ([Optional/Required]).
-  (Add more inputs as needed)
+  - `[ACTIONLINT_VERSION]`: Version of actionlint to use (Optional/Required).
+  - `[YAMLLINT_VERSION]`: Version of yamllint to use (Optional/Required).
   
 - **Main Features**:
-  - [FEATURE_1]
-  - [FEATURE_2]
-  (Add more features as needed)
+  - Cache pip data and actionlint.
+  - Install yamllint and actionlint.
+  - Check for yamllint config and check YAML Syntax for All Files.
+  - Check GitHub Actions Workflow Syntax.
 
 ---
 
@@ -25,14 +25,21 @@ In this release, we've introduced a new GitHub action to streamline the [SPECIFI
 
 To utilize this action in your workflow:
 
-1. [INSTRUCTION_1]
-2. [INSTRUCTION_2]
-(Add more instructions as needed)
+1. Create a workflow file (e.g., `.github/workflows/syntax-check.yml`).
+2. Configure the workflow to use the `Check Syntax Action`:
 
----
+```yaml
+on: [push]
 
-⚠️ **Note**: [SPECIFIC_NOTE]
-
----
-
-🙏 Thank you for using this action! Your feedback is always appreciated.
+jobs:
+  syntax_check:
+    runs-on: ubuntu-latest
+    name: Check Syntax
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Run Check Syntax Action
+      uses: ./.github/actions/check-syntax-action  # Specify the path to your action
+      env:
+        ACTIONLINT_VERSION: "1.6.25"
+        YAMLLINT_VERSION: "1.32.0"
