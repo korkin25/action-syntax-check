@@ -53,7 +53,9 @@ runs:
       id: cache_collections
       uses: actions/cache@v2
       with:
-        path: ~/.ansible/collections
+        path: |
+          ~/.ansible/collections
+          ~/.ansible
         key: ansible-collections-${{ hashFiles('galaxy-requirements.txt') }}
         restore-keys: ansible-collections-${{ hashFiles('galaxy-requirements.txt') }}
 
